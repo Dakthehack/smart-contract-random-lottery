@@ -1,95 +1,81 @@
-Smart Contract Random Lottery 🎲
+# 🎰 Random Lottery Smart Contract
+
+Welcome to the **Random Lottery** project—a fully decentralized lottery (raffle) built with Solidity and Chainlink VRF!
+
+> Created while following the [Cyfrin Foundry Fundamentals Course](https://github.com/Cyfrin/foundry-fundamentals-f23).
+
+---
+
+## ✨ Overview
+
+This project implements a secure, on-chain random lottery system:
+
+- **Anyone can enter** by sending ETH.
+- **A random winner** is selected at regular intervals using Chainlink VRF for provable randomness.
+- **Automation via Chainlink Automation** ensures the lottery runs without manual intervention.
+
+---
+
+## 💡 Key Features
+
+✅ **Verifiable Randomness**  
+Powered by [Chainlink VRFv2.5](https://docs.chain.link/docs/vrf/v2-5/) to ensure secure and transparent winner selection.
+
+✅ **Automated Execution**  
+Integrated with [Chainlink Automation](https://docs.chain.link/chainlink-automation/introduction/) to trigger winner selection automatically.
+
+✅ **Robust State Management**  
+Utilizes enums for clear state tracking (`OPEN` and `CALCULATING`).
+
+✅ **Fully Tested**  
+Built with [Foundry](https://book.getfoundry.sh/) and includes comprehensive test coverage.
+
+---
+
+## 📦 Project Structure
+├── src/ # Core smart contracts (e.g. Raffle.sol)
+├── script/ # Deployment and interaction scripts
+├── test/ # Test suite (RaffleTest.t.sol)
+├── lib/ # External dependencies (Chainlink, Foundry-std, Solmate, etc.)
+├── foundry.toml # Foundry configuration file
+├── Makefile # Makefile for helpful dev commands
+├── .github/ # GitHub Actions workflows
+└── README.md # This file!
 
 
-A robust and secure random lottery system built in Solidity, using Chainlink VRFv2.5 for provable randomness and Chainlink Automation for automated winner selection!
+---
 
-Created by following the Cyfrin Foundry Fundamentals course.
+## 🏗️ Smart Contract: `Raffle.sol`
 
-✨ Overview
-This project implements a fully on-chain lottery (raffle) system:
 
-Anyone can enter by paying the entrance fee.
 
-A random winner is selected periodically using Chainlink VRF for verifiable randomness.
+### Core Concepts
 
-Automation via Chainlink Keepers ensures the lottery picks a winner after a predefined interval.
+| Variable             | Description                                           |
+| -------------------- | ----------------------------------------------------- |
+| `i_subscriptionId`   | Chainlink VRF subscription ID                         |
+| `i_gasLane`          | Chainlink VRF keyHash (gas lane)                      |
+| `i_callbackGasLimit` | Gas limit for the VRF callback                        |
+| `i_interval`         | Time interval (in seconds) between draws              |
+| `i_entranceFee`      | Amount of ETH required to enter the lottery           |
+| `s_lastTimeStamp`    | Timestamp of the last draw                            |
+| `s_recentWinner`     | Address of the most recent winner                     |
+| `s_players`          | Array of all current players                          |
+| `s_raffleState`      | Enum (OPEN or CALCULATING) to manage raffle lifecycle |
 
-🚀 Features
-✅ Verifiable Randomness: Utilizes Chainlink VRFv2.5 to securely and transparently select a random winner.
-✅ Automated Execution: Integrated with Chainlink Automation for periodic winner selection.
-✅ Modular & Secure: Clear error handling, state management via enums, and best-practice design patterns.
-✅ Fully tested: Comprehensive test suite built with Foundry.
+### Key Functions
 
-🧩 Contract: Raffle.sol
-This contract implements the entire lottery logic.
+- `enterRaffle()`: Players send ETH to enter the lottery.
+- `checkUpkeep()`: Called by Automation to check if a new draw is needed.
+- `performUpkeep()`: Starts the random winner selection via VRF.
+- `fulfillRandomWords()`: Called by VRF to determine the winner and distribute the prize.
+- Various getter functions to expose contract data.
 
-Key Variables
-Variable	Purpose
-i_subscriptionId	Chainlink VRF subscription ID
-i_gasLane	Chainlink gas lane keyHash
-i_callbackGasLimit	Gas limit for the VRF callback
-i_interval	Time interval between lottery rounds
-i_entranceFee	Fee required to enter the raffle
-s_lastTimeStamp	Last time the raffle was executed
-s_recentWinner	Address of the most recent winner
-s_players	Array of all participants
-s_raffleState	Enum (OPEN or CALCULATING) to manage the raffle lifecycle
+---
 
-Main Functions
-enterRaffle(): Allows users to enter the lottery by paying the entrance fee.
+## 🛠️ Development Setup
 
-checkUpkeep(): Called by Chainlink Automation to determine if a new winner should be picked.
+1️⃣ **Install dependencies**
 
-performUpkeep(): Calls Chainlink VRF to request a random winner.
-
-fulfillRandomWords(): Called by Chainlink VRF to select the winner and transfer the prize.
-
-Getter functions: Expose important contract states and configurations.
-
-🏗️ Project Structure
-bash
-Copy
-Edit
-├── src/           # Core contracts (Raffle.sol, etc.)
-├── test/          # Tests (RaffleTest.t.sol, etc.)
-├── script/        # Deployment and interaction scripts
-├── lib/           # External dependencies (Chainlink, foundry-devops, solmate)
-├── foundry.toml   # Foundry config
-├── Makefile       # Helpful dev commands
-└── README.md      # This file
-🛠️ Setup & Usage
-1️⃣ Install Dependencies
-Run the following command to install all dependencies:
-
-nginx
-Copy
-Edit
+```bash
 forge install
-2️⃣ Build Contracts
-Compile the contracts:
-
-nginx
-Copy
-Edit
-forge build
-3️⃣ Run Tests
-Execute the full test suite:
-
-bash
-Copy
-Edit
-forge test
-4️⃣ Generate Coverage Report
-Get a detailed coverage report:
-
-nginx
-Copy
-Edit
-forge coverage
-5️⃣ Deploy the Contract
-Use the provided Foundry script:
-
-go
-Copy
-Edit
-make deploy ARGS="--network sepolia"

@@ -79,3 +79,24 @@ Built with [Foundry](https://book.getfoundry.sh/) and includes comprehensive tes
 
 ```bash
 forge install
+2️⃣ Build the contracts
+bash
+forge build
+3️⃣ Run tests
+bash
+forge test
+4️⃣ Generate coverage report
+bash
+forge coverage
+5️⃣ Deploy the contract
+bash
+make deploy ARGS="--network sepolia"
+
+
+🚀 Deployment Notes
+Local testing: Use the Anvil network.
+
+Chainlink VRF: Make sure the subscription is funded with LINK.
+
+Automation: Automation Upkeep needs to be registered to enable periodic draws.
+

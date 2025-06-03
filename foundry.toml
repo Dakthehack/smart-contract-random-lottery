@@ -1,0 +1,18 @@
+[profile.default]
+src = "src"
+out = "out"
+libs = ["lib", "chainlink", "script"] # added chainlink here
+remappings = [
+    '@chainlink/contracts/=chainlink/contracts/', # 💥 NEW remapping
+    'forge-std/=lib/forge-std/src/',
+    '@solmate/=lib/solmate/src/',
+
+]
+
+fs_permissions = [
+    { access = "read", path = "./broadcast" },
+    { access = "read", path = "./reports" },
+]
+
+[fuzz]
+runs = 256

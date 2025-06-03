@@ -77,34 +77,33 @@ Built with [Foundry](https://book.getfoundry.sh/) and includes comprehensive tes
 
 1️⃣ **Install dependencies**
 
-\`\`\`bash
+```bash
 forge install
-\`\`\`
+```
 
 2️⃣ **Build the contracts:**
 
-\`\`\`bash
+```bash
 forge build
-\`\`\`
+```
 
 3️⃣ **Run tests:**
 
-\`\`\`bash
+```bash
 forge test
-\`\`\`
+```
 
 4️⃣ **Generate coverage report:**
 
-\`\`\`bash
+```bash
 forge coverage
-\`\`\`
+```
 
-5️⃣ **Deploy the contract:**
+5️⃣ **Deploy the contract:**1️⃣ **Install dependencies:**
 
-\`\`\`bash
+```bash
 make deploy ARGS="--network sepolia"
-\`\`\`
-
+```
 
 
 🚀 Deployment Notes
